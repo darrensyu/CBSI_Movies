@@ -63,7 +63,7 @@
     <tr>
         <th>Company Name</th>
         <th>Company Revenue</th>
-        <th>Company Loss</th>
+        <th>Company Cost</th>
         <th>Company Profit(+)/Loss(-)</th>
     </tr>
     <?php
