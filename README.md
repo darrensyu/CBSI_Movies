@@ -2,7 +2,7 @@
 CBSI Movies Interview Project
 
 ##Initial Prompt:
-
+Three hollywood movie production companies, each produces 5-10 movies a year, 10% of the movies fail financially, actors are paid base amount plus rev share. Assume 4 core actors per movie. Produce a display that shows actors, actor revenue, movie production companies revenue, losses for each and a form that allows a user to enter an actor and map to movie and base pay .
 
 ##Assumptions:
 During the course of this project I made a few assumptions in regards to how the information and how certain elements of the database related to each other.
