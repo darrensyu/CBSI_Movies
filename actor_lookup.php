@@ -16,6 +16,7 @@
 </html>
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+  
   $fullName = mysql_real_escape_string($_POST['fullNameSearch']);
   $bool = false;
 

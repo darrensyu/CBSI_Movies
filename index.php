@@ -64,13 +64,15 @@
         <th>Company Name</th>
         <th>Company Revenue</th>
         <th>Company Loss</th>
+        <th>Company Profit(+)/Loss(-)</th>
     </tr>
     <?php
       mysql_connect("localhost","root","") or die(mysql_error());
       mysql_select_db("first_db") or die("Cannot connect to database");
 
-      $company_query = mysql_query("SELECT companies.companyName, SUM(movies.revenue) totalRevenue,
-      SUM(movies.cost) totalCost FROM companies JOIN movies
+      $company_query = mysql_query("SELECT companies.companyName,
+      SUM(movies.revenue) totalRevenue, SUM(movies.cost) totalCost,
+      SUM(movies.revenue)-SUM(movies.cost) totalProfitLoss FROM companies JOIN movies
       ON movies.companyName = companies.companyName
       GROUP BY movies.companyName");
       if($company_query === FALSE)
@@ -83,6 +85,7 @@
           print '<td align="center">'.$company_row['companyName']."</td>";
           print '<td align="center">'.$company_row['totalRevenue']."</td>";
           print '<td align="center">'.$company_row['totalCost']."</td>";
+          print '<td align="center">'.$company_row['totalProfitLoss']."</td>";
         print "</tr>";
       }
     ?>
