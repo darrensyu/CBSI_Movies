@@ -11,7 +11,7 @@
     </tr>
     <?php
       mysql_connect("localhost","root","") or die(mysql_error());
-      mysql_select_db("first_db") or die("Cannot connect to database");
+      mysql_select_db("cbsi_movies_db") or die("Cannot connect to database");
 
       $actor_query = mysql_query("SELECT * FROM actors");
       if($actor_query === FALSE)
@@ -68,7 +68,7 @@
     </tr>
     <?php
       mysql_connect("localhost","root","") or die(mysql_error());
-      mysql_select_db("first_db") or die("Cannot connect to database");
+      mysql_select_db("cbsi_movies_db") or die("Cannot connect to database");
 
       $company_query = mysql_query("SELECT companies.companyName,
       SUM(movies.revenue) totalRevenue, SUM(movies.cost) totalCost,

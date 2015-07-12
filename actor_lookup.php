@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $bool = false;
 
   mysql_connect("localhost", "root", "") or die(mysql_error()); //Connects to server
-  mysql_select_db("first_db") or die ("Cannot connect to database"); //Connects to database
+  mysql_select_db("cbsi_movies_db") or die ("Cannot connect to database"); //Connects to database
 
   $actor_query = mysql_query("SELECT * FROM actors WHERE fullName = '$fullName' LIMIT 1"); //Query the actors table
   $row = mysql_fetch_array($actor_query);
