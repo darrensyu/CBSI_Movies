@@ -7,24 +7,24 @@
     <form action="movie_form.php" method="POST">
       Enter Movie's Title: <input type="text" name="movieTitleEntry" required="required"/> <br/><br/>
       Enter Movie's Production Company Name: <input type="text" name="companyEntry" required="required"/> <br/><br/>
-      Enter Movie's Revenue: $<input type="text" name ="revenueEntry" required="required"/> <br/><br/>
-      Enter Movie's Cost: $<input type="text" name ="costEntry" required="required"/> <br/><br/>
+      Enter Movie's Revenue: $<input type="number" name ="revenueEntry" required="required"/> <br/><br/>
+      Enter Movie's Cost: $<input type="number" name ="costEntry" required="required"/> <br/><br/>
 
       Enter Movie's First Actor's Full Name: <input type="text" name="actor1Entry" required="required"/> <br/>
-      Enter Movie's First Actor's Base Payment: $<input type="text" name="actor1BaseEntry" required="required"/> <br/>
-      Enter Movie's First Actor's Revenue Share Percentage: <input type="text" name="actor1RevEntry" required="required"/>% <br/><br/>
+      Enter Movie's First Actor's Base Payment: $<input type="number" name="actor1BaseEntry" required="required"/> <br/>
+      Enter Movie's First Actor's Revenue Share Percentage: <input type="number" name="actor1RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Second Actor's Full Name: <input type="text" name="actor2Entry" required="required"/> <br/>
-      Enter Movie's Second Actor's Base Payment: $<input type="text" name="actor2BaseEntry" required="required"/> <br/>
-      Enter Movie's Second Actor's Revenue Share Percentage: <input type="text" name="actor2RevEntry" required="required"/>% <br/><br/>
+      Enter Movie's Second Actor's Base Payment: $<input type="number" name="actor2BaseEntry" required="required"/> <br/>
+      Enter Movie's Second Actor's Revenue Share Percentage: <input type="number" name="actor2RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Third Actor's Full Name: <input type="text" name="actor3Entry" required="required"/> <br/>
-      Enter Movie's Third Actor's Base Payment: $<input type="text" name="actor3BaseEntry" required="required"/> <br/>
-      Enter Movie's Third Actor's Revenue Share Percentage: <input type="text" name="actor3RevEntry" required="required"/>% <br/><br/>
+      Enter Movie's Third Actor's Base Payment: $<input type="number" name="actor3BaseEntry" required="required"/> <br/>
+      Enter Movie's Third Actor's Revenue Share Percentage: <input type="number" name="actor3RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Fourth Actor's Full Name: <input type="text" name="actor4Entry" required="required"/> <br/>
-      Enter Movie's Fourth Actor's Base Payment: $<input type="text" name="actor4BaseEntry" required="required"/> <br/>
-      Enter Movie's Fourth Actor's Revenue Share Percentage: <input type="text" name="actor4RevEntry" required="required"/>% <br/><br/>
+      Enter Movie's Fourth Actor's Base Payment: $<input type="number" name="actor4BaseEntry" required="required"/> <br/>
+      Enter Movie's Fourth Actor's Revenue Share Percentage: <input type="number" name="actor4RevEntry" required="required"/>% <br/><br/>
 
 
       <input type="submit" value="Submit"/>
