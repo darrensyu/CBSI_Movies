@@ -36,28 +36,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     while ($aim_row = mysql_fetch_array($aim_query)){
       switch ($fullName) {
         case $aim_row['actor1']:
-          print "<b>Actor starred in: </b>".$aim_row['title']."<br/>";
-          print "For their role in <b>".$aim_row['title']."</b> they were paid
-          <br/>a base amount of <b>$".$aim_row['base1']."</b> and received <b>$".$aim_row['rev1']*$aim_row['revenue']."
-          </b>from revenue shares.<br/><br/>";
+          print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
+          print "The actor was paid a base amount of <b>$"
+          .$aim_row['base1']."</b> and received <b>$"
+          .number_format($aim_row['rev1']*$aim_row['revenue']/100.00,2)
+          ."</b> from revenue shares.<br/><br/>";
           break;
         case $aim_row['actor2']:
-          print "<b>Actor starred in: </b>".$aim_row['title']."<br/>";
-          print "For their role in <b>".$aim_row['title']."</b> they were paid
-          <br/>a base amount of <b>$".$aim_row['base2']."</b> and received <b>$".$aim_row['rev2']*$aim_row['revenue']."
-          </b>from revenue shares.<br/><br/>";
+          print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
+          print "The actor was paid a base amount of <b>$"
+          .$aim_row['base2']."</b> and received <b>$"
+          .number_format($aim_row['rev2']*$aim_row['revenue']/100.00,2)
+          ."</b> from revenue shares.<br/><br/>";
           break;
         case $aim_row['actor3']:
-          print "<b>Actor starred in: </b>".$aim_row['title']."<br/>";
-          print "For their role in <b>".$aim_row['title']."</b> they were paid
-          <br/>a base amount of <b>$".$aim_row['base3']."</b> and received <b>$".$aim_row['rev3']*$aim_row['revenue']."
-          </b>from revenue shares.<br/><br/>";
+          print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
+          print "The actor was paid a base amount of <b>$"
+          .$aim_row['base3']."</b> and received <b>$"
+          .number_format($aim_row['rev3']*$aim_row['revenue']/100.00,2)
+          ."</b> from revenue shares.<br/><br/>";
           break;
         case $aim_row['actor4']:
-          print "<b>Actor starred in: </b>".$aim_row['title']."<br/>";
-          print "For their role in <b>".$aim_row['title']."</b> they were paid
-          <br/>a base amount of <b>$".$aim_row['base4']."</b> and received <b>$".$aim_row['rev4']*$aim_row['revenue']."
-          </b>from revenue shares.<br/><br/>";
+          print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
+          print "The actor was paid a base amount of <b>$"
+          .$aim_row['base4']."</b> and received <b>$"
+          .number_format($aim_row['rev4']*$aim_row['revenue']/100.00,2)
+          ."</b> from revenue shares.<br/><br/>";
           break;
         default:
           break;

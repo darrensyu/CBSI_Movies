@@ -32,19 +32,19 @@
             switch ($actor_row['fullName']) {
               case $movie_row['actor1']:
                 $actor_rev_sum += $movie_row['base1']
-                + $movie_row['rev1']*$movie_row['revenue'];
+                + ($movie_row['rev1']*$movie_row['revenue']/100.00);
                 break;
               case $movie_row['actor2']:
                 $actor_rev_sum += $movie_row['base2']
-                + $movie_row['rev2']*$movie_row['revenue'];
+                + ($movie_row['rev2']*$movie_row['revenue']/100.00);
                 break;
               case $movie_row['actor3']:
                 $actor_rev_sum += $movie_row['base3']
-                + $movie_row['rev3']*$movie_row['revenue'];
+                + ($movie_row['rev3']*$movie_row['revenue']/100.00);
                 break;
               case $movie_row['actor4']:
                 $actor_rev_sum += $movie_row['base4']
-                + $movie_row['rev4']*$movie_row['revenue'];
+                + ($movie_row['rev4']*$movie_row['revenue']/100.00);
                 break;
 
               default:
@@ -52,7 +52,7 @@
             }
           }
           print '<td align="center">'.$actor_row['fullName']."</td>";
-          print '<td align="center">'.$actor_rev_sum."</td>";
+          print '<td align="center">'."$".number_format($actor_rev_sum,2)."</td>";
         print "</tr>";
       }
     ?>
@@ -68,8 +68,9 @@
     <?php
       mysql_connect("localhost","root","") or die(mysql_error());
       mysql_select_db("first_db") or die("Cannot connect to database");
+
       $company_query = mysql_query("SELECT companies.companyName, SUM(movies.revenue) totalRevenue,
-      SUM(movies.loss) totalLoss FROM companies JOIN movies
+      SUM(movies.cost) totalCost FROM companies JOIN movies
       ON movies.companyName = companies.companyName
       GROUP BY movies.companyName");
       if($company_query === FALSE)
@@ -81,7 +82,7 @@
         print "<tr>";
           print '<td align="center">'.$company_row['companyName']."</td>";
           print '<td align="center">'.$company_row['totalRevenue']."</td>";
-          print '<td align="center">'.$company_row['totalLoss']."</td>";
+          print '<td align="center">'.$company_row['totalCost']."</td>";
         print "</tr>";
       }
     ?>

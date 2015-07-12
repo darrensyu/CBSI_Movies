@@ -7,24 +7,24 @@
     <form action="movie_form.php" method="POST">
       Enter Movie's Title: <input type="text" name="movieTitleEntry" required="required"/> <br/><br/>
       Enter Movie's Production Company Name: <input type="text" name="companyEntry" required="required"/> <br/><br/>
-      Enter Movie's Revenue: <input type="text" name ="revenueEntry" required="required"/> <br/><br/>
-      Enter Movie's Loss: <input type="text" name ="lossEntry" required="required"/> <br/><br/>
+      Enter Movie's Revenue: $<input type="text" name ="revenueEntry" required="required"/> <br/><br/>
+      Enter Movie's Cost: $<input type="text" name ="costEntry" required="required"/> <br/><br/>
 
       Enter Movie's First Actor's Full Name: <input type="text" name="actor1Entry" required="required"/> <br/>
-      Enter Movie's First Actor's Base Payment: <input type="text" name="actor1BaseEntry" required="required"/> <br/>
-      Enter Movie's First Actor's Revenue Share Percentage: <input type="text" name="actor1RevEntry" required="required"/> <br/><br/>
+      Enter Movie's First Actor's Base Payment: $<input type="text" name="actor1BaseEntry" required="required"/> <br/>
+      Enter Movie's First Actor's Revenue Share Percentage: <input type="text" name="actor1RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Second Actor's Full Name: <input type="text" name="actor2Entry" required="required"/> <br/>
-      Enter Movie's Second Actor's Base Payment: <input type="text" name="actor2BaseEntry" required="required"/> <br/>
-      Enter Movie's Second Actor's Revenue Share Percentage: <input type="text" name="actor2RevEntry" required="required"/> <br/><br/>
+      Enter Movie's Second Actor's Base Payment: $<input type="text" name="actor2BaseEntry" required="required"/> <br/>
+      Enter Movie's Second Actor's Revenue Share Percentage: <input type="text" name="actor2RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Third Actor's Full Name: <input type="text" name="actor3Entry" required="required"/> <br/>
-      Enter Movie's Third Actor's Base Payment: <input type="text" name="actor3BaseEntry" required="required"/> <br/>
-      Enter Movie's Third Actor's Revenue Share Percentage: <input type="text" name="actor3RevEntry" required="required"/> <br/><br/>
+      Enter Movie's Third Actor's Base Payment: $<input type="text" name="actor3BaseEntry" required="required"/> <br/>
+      Enter Movie's Third Actor's Revenue Share Percentage: <input type="text" name="actor3RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Fourth Actor's Full Name: <input type="text" name="actor4Entry" required="required"/> <br/>
-      Enter Movie's Fourth Actor's Base Payment: <input type="text" name="actor4BaseEntry" required="required"/> <br/>
-      Enter Movie's Fourth Actor's Revenue Share Percentage: <input type="text" name="actor4RevEntry" required="required"/> <br/><br/>
+      Enter Movie's Fourth Actor's Base Payment: $<input type="text" name="actor4BaseEntry" required="required"/> <br/>
+      Enter Movie's Fourth Actor's Revenue Share Percentage: <input type="text" name="actor4RevEntry" required="required"/>% <br/><br/>
 
 
       <input type="submit" value="Submit"/>
@@ -47,7 +47,7 @@
       $movieTitle = mysql_real_escape_string($_POST['movieTitleEntry']);
       $movieCompany = mysql_real_escape_string($_POST['companyEntry']);
       $movieRevenue = mysql_real_escape_string($_POST['revenueEntry']);
-      $movieLoss = mysql_real_escape_string($_POST['lossEntry']);
+      $movieCost = mysql_real_escape_string($_POST['costEntry']);
 
       $movieActor1 = mysql_real_escape_string($_POST['actor1Entry']);
       $movieActor2 = mysql_real_escape_string($_POST['actor2Entry']);
@@ -96,11 +96,11 @@
       }
 
       if ($bool){
-        mysql_query("INSERT INTO movies(title, companyName, revenue, loss,
+        mysql_query("INSERT INTO movies(title, companyName, revenue, cost,
           actor1,actor2,actor3,actor4,
           base1,base2,base3,base4,
           rev1,rev2,rev3,rev4)
-          VALUES ('$movieTitle','$movieCompany','$movieRevenue','$movieLoss',
+          VALUES ('$movieTitle','$movieCompany','$movieRevenue','$movieCost',
           '$movieActor1','$movieActor2','$movieActor3','$movieActor4',
           '$movieBase1','$movieBase2','$movieBase3','$movieBase4',
           '$movieRev1','$movieRev2','$movieRev3','$movieRev4')");
