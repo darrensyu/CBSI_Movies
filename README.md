@@ -13,6 +13,9 @@ The prompt says that there are 4 core actors per movie, so I assumed that there 
 Assumption #2:
 The prompt talks about movie production companies' revenue and losses, but in order to properly calculate losses, I would need to know production costs for the movie. Therefore, I took both into account and created both a "Company Cost" column and a "Company Profit/Loss" column on the home page display.
 
+Assumption #3:
+The prompt talks about 10% of the movies failing financially. I took this to mean that if the production revenue for a particular movie was lower than the production cost, the movie would be considered to have failed financially. There are 20 movies in total for the initial Movies table and therefore I inserted 2 movies that failed financially ("Frozen" and "The Book of Life").
+
 ##Tools:
 For this particular project I used:<br/>
 Text Editor: Atom <br/>
