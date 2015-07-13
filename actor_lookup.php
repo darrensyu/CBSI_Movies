@@ -55,28 +55,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         case $aim_row['actor1']:
           print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
           print "The actor was paid a base amount of <b>$"
-          .$aim_row['base1']."</b> and received <b>$"
+          .number_format($aim_row['base1'],2)."</b> and received <b>$"
           .number_format($aim_row['rev1']*$aim_row['revenue']/100.00,2)
           ."</b> from revenue shares.<br/><br/>";
           break;
         case $aim_row['actor2']:
           print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
           print "The actor was paid a base amount of <b>$"
-          .$aim_row['base2']."</b> and received <b>$"
+          .number_format($aim_row['base2'],2)."</b> and received <b>$"
           .number_format($aim_row['rev2']*$aim_row['revenue']/100.00,2)
           ."</b> from revenue shares.<br/><br/>";
           break;
         case $aim_row['actor3']:
           print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
           print "The actor was paid a base amount of <b>$"
-          .$aim_row['base3']."</b> and received <b>$"
+          .number_format($aim_row['base3'],2)."</b> and received <b>$"
           .number_format($aim_row['rev3']*$aim_row['revenue']/100.00,2)
           ."</b> from revenue shares.<br/><br/>";
           break;
         case $aim_row['actor4']:
           print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
           print "The actor was paid a base amount of <b>$"
-          .$aim_row['base4']."</b> and received <b>$"
+          .number_format($aim_row['base4'],2)."</b> and received <b>$"
           .number_format($aim_row['rev4']*$aim_row['revenue']/100.00,2)
           ."</b> from revenue shares.<br/><br/>";
           break;

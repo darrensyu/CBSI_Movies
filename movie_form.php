@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Enter New Actor Information</title>
+    <title>Enter New Movie Information</title>
   </head>
   <body>
     <h1 align="center">New Movie Entry Form:</h1>
@@ -127,7 +127,7 @@
 
         echo $movieTitle." has been added to the Movies database.<br/>";
       }
-      
+
     }
   ?>
 

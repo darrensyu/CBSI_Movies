@@ -17,7 +17,7 @@
       mysql_select_db("cbsi_movies_db") or die("Cannot connect to database");
 
       //SQL query for displaying the actors' names
-      $actor_query = mysql_query("SELECT * FROM actors");
+      $actor_query = mysql_query("SELECT * FROM actors ORDER BY fullName");
 
       if($actor_query === FALSE){
         die(mysql_error());
@@ -89,9 +89,9 @@
       while($company_row = mysql_fetch_array($company_query)){
         print "<tr>";
           print '<td align="center">'.$company_row['companyName']."</td>";
-          print '<td align="center">'.$company_row['totalRevenue']."</td>";
-          print '<td align="center">'.$company_row['totalCost']."</td>";
-          print '<td align="center">'.$company_row['totalProfitLoss']."</td>";
+          print '<td align="center">$'.number_format($company_row['totalRevenue'],2)."</td>";
+          print '<td align="center">$'.number_format($company_row['totalCost'],2)."</td>";
+          print '<td align="center">$'.number_format($company_row['totalProfitLoss'],2)."</td>";
         print "</tr>";
       }
     ?>
