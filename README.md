@@ -13,20 +13,27 @@ The prompt says that there are 4 core actors per movie, so I assumed that there 
 Assumption #2:
 The prompt talks about movie production companies' revenue and losses, but in order to properly calculate losses, I would need to know production costs for the movie. Therefore, I took both into account and created both a "Company Cost" column and a "Company Profit/Loss" column on the home page display.
 
+Assumption #3:
+The prompt talks about 10% of the movies failing financially. I took this to mean that if the production revenue for a particular movie was lower than the production cost, the movie would be considered to have failed financially. There are 20 movies in total for the initial Movies table and therefore I inserted 2 movies that failed financially ("Frozen" and "The Book of Life").
+
 ##Tools:
-For this particular project I used:
-Text Editor: Atom
-Web Server: XAMPP
-Browser: Google Chrome
-OS: Windows
+For this particular project I used:<br/>
+Text Editor: Atom <br/>
+Web Server: XAMPP<br/>
+Browser: Google Chrome<br/>
+OS: Windows<br/>
 
 ##Installation Instructions:
 In order to properly run this project, a few steps must first be taken.
+<br/><br/>
 1. Download XAMPP(https://www.apachefriends.org/index.html) and after completing the installer, you should run the XAMPP Control Panel. From here, we will start the Apache and MySQL modules for our web server.
+<br/><br/>
 2. Open a web browser and go to localhost/phpmyadmin. Once there, you should see a sidebar at the left of the screen with all the current default databases available (e.g. cdcol, webauth, information_schema, etc.). What we are interested in is creating a new database that for the purposes of this project we will name "cbsi_movies_db" in order to match it to the database we are importing from the cbsi_movies_db.sql file.
+<br/><br/>
 3. After creating the new "cbsi_movies_db" database on phpmyadmin, we can import the cbsi_movies_db.sql file by first clicking on our newly-made database on the lefthand sidebar and then choosing the "Import" option located at the top of the screen. We select the cbsi_movies_db.sql file as the file we wish to import into the current server and then ensure that the Format is SQL. Then click "Go."
+<br/><br/>
 4. Now that we have properly imported the database information into our server, then next steps are for actually loading and accessing the PHP webapp. Drag the folder created from cloning the github repository into XAMPP\\htdocs folder (the default location is C:\\xampp\\htdocs) This allows us to access the web app with the URL "localhost\\CBSI_Movies." Type this URL into the browser and the first page of the web app will appear. Read onward to the "USAGE" section for how to navigate through the web app.
-
+<br/>
 ##Usage:
 The first page you are directed to is "index.php" (herein referred to as the Home Page). The Home Page is where I've decided to place the display of information asked for from the prompt. On the Home Page,there are 2 tables. The first table contains the information about all the current actors within the database and their respective calculated revenue. The revenue of each actor is a sum of all their base payments and revenue share payouts for each movie they were a part of. The second table contains the information about the 3 movie production companies and their respective revenue, costs, and profits/losses. There are also links to the other pages I created for this project and clicking on them will navigate you to each respective page.
 
