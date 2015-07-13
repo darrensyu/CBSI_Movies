@@ -3,7 +3,6 @@
     <title>Actor Lookup</title>
   </head>
   <body>
-
       <form action="actor_lookup.php" align="center" method="POST">
         Enter Actor Full Name: <input type="text" align="center" name="fullNameSearch" required="required"/> <br/><br/>
         <input type="submit" value="Submit"/> <br/><br/>
@@ -16,25 +15,42 @@
 </html>
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  
+
+  //Connects to server
+  mysql_connect("localhost", "root", "") or die(mysql_error());
+
+  //Connects to database
+  mysql_select_db("cbsi_movies_db") or die ("Cannot connect to database");
+
+  //Variable to store the string from the user's input
   $fullName = mysql_real_escape_string($_POST['fullNameSearch']);
-  $bool = false;
 
-  mysql_connect("localhost", "root", "") or die(mysql_error()); //Connects to server
-  mysql_select_db("cbsi_movies_db") or die ("Cannot connect to database"); //Connects to database
+  //Boolean variable to see if the actor was found within the Actors table.
+  $found_bool = false;
 
-  $actor_query = mysql_query("SELECT * FROM actors WHERE fullName = '$fullName' LIMIT 1"); //Query the actors table
+  //SQL query to see if the actor exists within the Actors table
+  $actor_query = mysql_query("SELECT * FROM actors
+    WHERE fullName = '$fullName' LIMIT 1");
+
   $row = mysql_fetch_array($actor_query);
+
+  //If the inputted string matches the full name of an actor in the Actor table,
+  //then output the financial information about that specific actor.
   if($fullName == $row['fullName'])
   {
-    $bool = true;
+    $found_bool = true;
     print "<b>Actor's Full Name: </b>".$row['fullName']."<br/><br/>";
-    $aim_query = mysql_query("SELECT * FROM movies ORDER BY title ASC");//Actor In Movie (aim) Query
-    if($aim_query === FALSE)
-    {
+
+    //SQL Query to find all movies that the actor starred in
+    $starred_query = mysql_query("SELECT * FROM movies ORDER BY title ASC");
+
+    if($starred_query === FALSE) {
       die(mysql_error());
     }
-    while ($aim_row = mysql_fetch_array($aim_query)){
+
+    while ($aim_row = mysql_fetch_array($starred_query)){
+      //SWITCH statement to properly show the financial informaton about an
+      //actor regardless of the position they were entered into the database
       switch ($fullName) {
         case $aim_row['actor1']:
           print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
@@ -68,9 +84,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           break;
       }
     }
-
   }
-  if(!$bool){
+
+  //If the actor was not found, display that fact to the user
+  if(!$found_bool){
     echo "Actor <b>(".$fullName.")</b> not found!<br/>";
   }
 
