@@ -23,26 +23,44 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   mysql_select_db("cbsi_movies_db") or die ("Cannot connect to database");
 
   //Variable to store the string from the user's input
-  $fullName = mysql_real_escape_string($_POST['fullNameSearch']);
+  $full_name = mysql_real_escape_string($_POST['fullNameSearch']);
 
   //Boolean variable to see if the actor was found within the Actors table.
   $found_bool = false;
 
   //SQL query to see if the actor exists within the Actors table
-  $actor_query = mysql_query("SELECT * FROM actors
-    WHERE fullName = '$fullName' LIMIT 1");
+  $actor_query = mysql_query("SELECT fullName,id FROM actors
+    WHERE fullName = '$full_name' LIMIT 1");
 
   $row = mysql_fetch_array($actor_query);
 
   //If the inputted string matches the full name of an actor in the Actor table,
   //then output the financial information about that specific actor.
-  if($fullName == $row['fullName'])
+  if($full_name == $row['fullName'])
   {
     $found_bool = true;
+    $found_id = $row['id'];
     print "<b>Actor's Full Name: </b>".$row['fullName']."<br/><br/>";
 
+
+    $pay_query = mysql_query("SELECT title, basePay,
+      (payments.revShare*movies.revenue/100) payout
+      FROM payments JOIN movies ON payments.movieId = movies.id
+      WHERE payments.actorId = '$found_id'");
+
+    if($pay_query === FALSE){
+      die(mysql_error());
+    }
+
+    while($pay_row = mysql_fetch_array($pay_query)){
+      print "The actor starred in: <b>".$pay_row['title']."</b><br/>";
+      print "Base Payment: <b>$".number_format($pay_row['basePay'],2)."</b><br/>";
+      print "Revenue Share Payout: <b>$".number_format($pay_row['payout'],2)."</b><br/><br/>";
+    }
+
+    /*
     //SQL Query to find all movies that the actor starred in
-    $starred_query = mysql_query("SELECT * FROM movies ORDER BY title ASC");
+    $starred_query = mysql_query("SELECT * FROM movies ORDER BY title");
 
     if($starred_query === FALSE) {
       die(mysql_error());
@@ -51,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     while ($aim_row = mysql_fetch_array($starred_query)){
       //SWITCH statement to properly show the financial informaton about an
       //actor regardless of the position they were entered into the database
-      switch ($fullName) {
+      switch ($full_name) {
         case $aim_row['actor1']:
           print "Actor starred in: <b>".$aim_row['title']."</b><br/>";
           print "The actor was paid a base amount of <b>$"
@@ -83,12 +101,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         default:
           break;
       }
-    }
+    }*/
   }
 
   //If the actor was not found, display that fact to the user
   if(!$found_bool){
-    echo "Actor <b>(".$fullName.")</b> not found!<br/>";
+    echo "Actor <b>(".$full_name.")</b> not found!<br/>";
   }
 
 

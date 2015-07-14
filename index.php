@@ -17,15 +17,35 @@
       mysql_select_db("cbsi_movies_db") or die("Cannot connect to database");
 
       //SQL query for displaying the actors' names
-      $actor_query = mysql_query("SELECT * FROM actors ORDER BY fullName");
+      $actor_query = mysql_query("SELECT id,fullName FROM actors ORDER BY fullName");
 
       if($actor_query === FALSE){
         die(mysql_error());
       }
 
+      print "<tr>";
       while($actor_row = mysql_fetch_array($actor_query)){
         $actor_rev_sum = 0;
 
+        $rev_sum = 0;
+        $curr_actor_id = $actor_row['id'];
+        $curr_actor = $actor_row['fullName'];
+        $rev_query = mysql_query("SELECT basePay,
+          (payments.revShare*movies.revenue/100) payout
+          FROM payments LEFT JOIN movies
+          ON payments.movieId = movies.id
+          WHERE '$curr_actor_id' = payments.actorId");
+        while ($rev_row = mysql_fetch_array($rev_query)){
+          $currBase = $rev_row['basePay'];
+          $currPayout = $rev_row['payout'];
+          $rev_sum+= $currBase + $currPayout;
+        }
+
+        print '<td align="center">'.$curr_actor."</td>";
+        print '<td align="center">'."$".number_format($rev_sum,2)."</td>";
+
+        print "</tr>";
+        /*
         print "<tr>";
           //SQL query for displaying the actors' revenues
           $movie_query = mysql_query("SELECT * FROM movies");
@@ -61,6 +81,7 @@
           print '<td align="center">'."$".number_format($actor_rev_sum,2)."</td>";
 
         print "</tr>";
+        */
       }
     ?>
   </table>
@@ -79,8 +100,8 @@
       $company_query = mysql_query("SELECT companies.companyName,
       SUM(movies.revenue) totalRevenue, SUM(movies.cost) totalCost,
       SUM(movies.revenue)-SUM(movies.cost) totalProfitLoss FROM companies
-      LEFT JOIN movies ON movies.companyName = companies.companyName
-      GROUP BY movies.companyName ORDER BY companies.companyName");
+      LEFT JOIN movies ON movies.companyId = companies.id
+      GROUP BY companies.companyName ORDER BY companies.companyName");
 
       if($company_query === FALSE){
         die(mysql_error());

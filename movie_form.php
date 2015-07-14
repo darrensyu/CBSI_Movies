@@ -75,10 +75,13 @@
       //Array with the names of each actor to be used to cross-reference
       //against the current names of all the actors within the database.
       $actorArray = [$movieActor1,$movieActor2,$movieActor3,$movieActor4];
+      $baseArray = [$movieBase1,$movieBase2,$movieBase3,$movieBase4];
+      $revArray = [$movieRev1,$movieRev2,$movieRev3,$movieRev4];
+      $actorIdArray = array();
 
       //If the inputted title already exists within the Movies table, then
       //notify the user of the duplication and do not create a new entry.
-      $duplicate_movie_query = mysql_query("SELECT * FROM movies");
+      $duplicate_movie_query = mysql_query("SELECT title FROM movies");
       while($row = mysql_fetch_array($duplicate_movie_query)){
         if ($movieTitle == $row['title']) {
           $valid_bool = false;
@@ -92,38 +95,52 @@
        * information is not valid and a new entry is therefore not added to
        * the Movies table and the user is notified about the error.
        */
-      $company_check_query = mysql_query("SELECT * FROM companies
-        WHERE companyName = '$movieCompany'");
+      $company_check_query = mysql_query("SELECT companyName,id FROM companies
+        WHERE companyName = '$movieCompany' LIMIT 1");
+      if($company_check_query === FALSE){
+        die(mysql_error());
+      }
+      $company_row = mysql_fetch_array($company_check_query);
       if(!($company_check_query && mysql_num_rows($company_check_query) > 0)
         && $valid_bool) {
         echo "The company ".$movieCompany." does not seem to exist.<br/>
         Please check your spelling and try again.";
         $valid_bool = false;
       }
+      else {
+        $company_id = $company_row['id'];
+      }
 
       //Foreach statement that dynamically adds actors to the Actors table if
       //do no already exist within the table
       foreach ($actorArray as $actor) {
-        $new_actor_query = mysql_query("SELECT * FROM actors
+        $actor_query = mysql_query("SELECT fullName,id FROM actors
           WHERE fullName = '$actor'");
-        if(!($new_actor_query && mysql_num_rows($new_actor_query) > 0)
+        $actor_row = mysql_fetch_array($actor_query);
+        if(!($actor_query && mysql_num_rows($actor_query) > 0)
           && $valid_bool) {
           echo $actor." added to the Actors database.<br/>";
           mysql_query("INSERT INTO actors(fullName) VALUES('$actor')");
+          array_push($actorIdArray, mysql_insert_id());
+        }
+        else{
+          array_push($actorIdArray,$actor_row['id']);
         }
       }
 
       //If the information is valid, then create the new entry into the Movies
       //table with the inputted values
       if ($valid_bool) {
-        mysql_query("INSERT INTO movies(title, companyName, revenue, cost,
-          actor1,actor2,actor3,actor4,
-          base1,base2,base3,base4,
-          rev1,rev2,rev3,rev4)
-          VALUES ('$movieTitle','$movieCompany','$movieRevenue','$movieCost',
-          '$movieActor1','$movieActor2','$movieActor3','$movieActor4',
-          '$movieBase1','$movieBase2','$movieBase3','$movieBase4',
-          '$movieRev1','$movieRev2','$movieRev3','$movieRev4')");
+
+        mysql_query("INSERT INTO movies(title, companyId, revenue, cost)
+          VALUES ('$movieTitle','$company_id','$movieRevenue','$movieCost')");
+        $movieId = mysql_insert_id();
+
+        for($i = 0; $i < 4; $i++){
+          mysql_query("INSERT INTO
+            payments(actorId, movieId, basePay, revShare)
+            VALUES('$actorIdArray[$i]','$movieId','$baseArray[$i]','$revArray[$i]')");
+        }
 
         echo $movieTitle." has been added to the Movies database.<br/>";
       }
