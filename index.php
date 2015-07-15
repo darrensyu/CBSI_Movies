@@ -138,12 +138,15 @@
 
 
 
-      $character_query = mysql_query("SELECT movies.title, characters.name,
-        actors.fullName, COUNT(scripts.characterId) charlines  FROM characters
+      $character_query = mysql_query("SELECT movies.title,
+        characters.id, characters.name,
+        actors.fullName, COUNT(scripts.characterId) charlines,
+        scripts.movieId FROM characters
         JOIN scripts ON characters.id = scripts.characterId
         JOIN movies ON characters.movieId = movies.id
         JOIN actors ON characters.actorId = actors.id
-        GROUP BY characters.name");
+        GROUP BY characters.name
+        ORDER BY movies.title");
 
       if($character_query === FALSE){
         die(mysql_error());
@@ -151,8 +154,32 @@
 
       while($character_row = mysql_fetch_array($character_query)){
         $currCharacter = $character_row['name'];
+        $currCharacterId = $character_row['id'];
+        $currMovieId = $character_row['movieId'];
         //echo $currCharacter."<br/>";
         $wordsCount = 0;
+        $mentionCount = 0;
+
+        $mention_query = mysql_query("SELECT scripts.lineText
+          FROM scripts
+          WHERE '$currCharacterId' != scripts.characterId
+          AND '$currMovieId' = scripts.movieId");
+
+        if($mention_query === FALSE){
+          die(mysql_error());
+        }
+        //echo "~~".mysql_fetch_array($mention_query)['lineText']."<br/>";
+        while ($mention_row = mysql_fetch_array($mention_query)){
+          $currLineArray = explode(" ",$mention_row['lineText']);
+          foreach ($currLineArray as $word){
+            //echo $word."##<br/>";
+            if(strpos($word,$currCharacter) !== FALSE){
+              $mentionCount++;
+              //echo "*<br/>";
+            }
+          }
+        }
+
 
         $script_query = mysql_query("SELECT scripts.lineText
           FROM scripts
@@ -175,7 +202,7 @@
           print '<td align="center">'.$character_row['fullName']."</td>";
           print '<td align="center">'.$character_row['charlines'].'</td>';
           print '<td align="center">'.$wordsCount.'</td>';
-          print '<td align="center">0</td>';
+          print '<td align="center">'.$mentionCount.'</td>';
         print "</tr>";
       }
     ?>
