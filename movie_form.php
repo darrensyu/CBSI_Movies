@@ -13,18 +13,22 @@
       Enter Movie's Cost: $<input type="number" name ="costEntry" required="required"/> <br/><br/>
 
       Enter Movie's First Actor's Full Name: <input type="text" name="actor1Entry" required="required"/> <br/>
+      Enter Movie's First Actor's Character Name: <input type="text" name="character1Entry" required="required"/> <br/>
       Enter Movie's First Actor's Base Payment: $<input type="number" name="actor1BaseEntry" required="required"/> <br/>
       Enter Movie's First Actor's Revenue Share Percentage: <input type="number" name="actor1RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Second Actor's Full Name: <input type="text" name="actor2Entry" required="required"/> <br/>
+      Enter Movie's Second Actor's Character Name: <input type="text" name="character2Entry" required="required"/> <br/>
       Enter Movie's Second Actor's Base Payment: $<input type="number" name="actor2BaseEntry" required="required"/> <br/>
       Enter Movie's Second Actor's Revenue Share Percentage: <input type="number" name="actor2RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Third Actor's Full Name: <input type="text" name="actor3Entry" required="required"/> <br/>
+      Enter Movie's Third Actor's Character Name: <input type="text" name="character3Entry" required="required"/> <br/>
       Enter Movie's Third Actor's Base Payment: $<input type="number" name="actor3BaseEntry" required="required"/> <br/>
       Enter Movie's Third Actor's Revenue Share Percentage: <input type="number" name="actor3RevEntry" required="required"/>% <br/><br/>
 
       Enter Movie's Fourth Actor's Full Name: <input type="text" name="actor4Entry" required="required"/> <br/>
+      Enter Movie's Fourth Actor's Character Name: <input type="text" name="character4Entry" required="required"/> <br/>
       Enter Movie's Fourth Actor's Base Payment: $<input type="number" name="actor4BaseEntry" required="required"/> <br/>
       Enter Movie's Fourth Actor's Revenue Share Percentage: <input type="number" name="actor4RevEntry" required="required"/>% <br/><br/>
 
@@ -57,6 +61,12 @@
       $movieActor3 = mysql_real_escape_string($_POST['actor3Entry']);
       $movieActor4 = mysql_real_escape_string($_POST['actor4Entry']);
 
+      //Variables for the character names for the actors
+      $movieCharacter1 = mysql_real_escape_string($_POST['character1Entry']);
+      $movieCharacter2 = mysql_real_escape_string($_POST['character2Entry']);
+      $movieCharacter3 = mysql_real_escape_string($_POST['character3Entry']);
+      $movieCharacter4 = mysql_real_escape_string($_POST['character4Entry']);
+
       //Variables for the base payments of the actors
       $movieBase1 = mysql_real_escape_string($_POST['actor1BaseEntry']);
       $movieBase2 = mysql_real_escape_string($_POST['actor2BaseEntry']);
@@ -75,6 +85,7 @@
       //Array with the names of each actor to be used to cross-reference
       //against the current names of all the actors within the database.
       $actorArray = [$movieActor1,$movieActor2,$movieActor3,$movieActor4];
+      $characterArray = [$movieCharacter1,$movieCharacter2,$movieCharacter3,$movieCharacter4];
       $baseArray = [$movieBase1,$movieBase2,$movieBase3,$movieBase4];
       $revArray = [$movieRev1,$movieRev2,$movieRev3,$movieRev4];
       $actorIdArray = array();
@@ -140,6 +151,8 @@
           mysql_query("INSERT INTO
             payments(actorId, movieId, basePay, revShare)
             VALUES('$actorIdArray[$i]','$movieId','$baseArray[$i]','$revArray[$i]')");
+          mysql_query("INSERT INTO characters(name,actorId,movieId)
+            VALUES('$characterArray[$i]','$actorIdArray[$i]','$movieId')");
         }
 
         echo $movieTitle." has been added to the Movies database.<br/>";

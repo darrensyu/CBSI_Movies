@@ -85,8 +85,8 @@
       }
     ?>
   </table>
-  <br/>
-  <br/>
+  <br/><br/>
+
   <table width="100%" style="max-width:50%;" align="center" border="1px">
     <tr>
         <th>Company Name</th>
@@ -117,8 +117,50 @@
       }
     ?>
   </table>
-  <br/>
-  <br/>
+  <br/><br/>
+
+  <!--
+  Table displaying numbers of lines and words in each movie script for each
+  Actor and the number of times the Actor's character is mentioned in each
+  script by other Actors.
+  -->
+  <table width="100%" style="max-width:50%;" align="center" border="1px">
+    <tr>
+        <th>Movie Title</th>
+        <th>Character Name</th>
+        <th>Actor Name</th>
+        <th>Number of Lines</th>
+        <th>Number of Words</th>
+        <th>Number of Mentions</th>
+    </tr>
+    <?php
+      $script_query = mysql_query("SELECT movies.title, characters.name,
+        actors.fullName FROM characters
+        JOIN scripts ON scripts.characterId = characters.id
+        JOIN movies ON characters.movieId = movies.id
+        JOIN actors ON characters.actorId = actors.id
+        GROUP BY characters.name");
+
+      if($script_query === FALSE){
+        die(mysql_error());
+      }
+
+
+
+      while($script_row = mysql_fetch_array($script_query)){
+        print "<tr>";
+          print '<td align="center">'.$script_row['title']."</td>";
+          print '<td align="center">'.$script_row['name']."</td>";
+          print '<td align="center">'.$script_row['fullName']."</td>";
+          print '<td align="center">0</td>';
+          print '<td align="center">0</td>';
+          print '<td align="center">0</td>';
+        print "</tr>";
+      }
+    ?>
+  </table>
+  <br/><br/>
+
   <body>
     <div align="center">
       <a href="actor_lookup.php">Click here for Actor Lookup</a> <br/><br/>
