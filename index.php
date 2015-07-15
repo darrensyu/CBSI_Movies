@@ -26,15 +26,16 @@
       print "<tr>";
       while($actor_row = mysql_fetch_array($actor_query)){
         $actor_rev_sum = 0;
-
         $rev_sum = 0;
         $curr_actor_id = $actor_row['id'];
         $curr_actor = $actor_row['fullName'];
+
         $rev_query = mysql_query("SELECT basePay,
           (payments.revShare*movies.revenue/100) payout
           FROM payments LEFT JOIN movies
           ON payments.movieId = movies.id
           WHERE '$curr_actor_id' = payments.actorId");
+
         while ($rev_row = mysql_fetch_array($rev_query)){
           $currBase = $rev_row['basePay'];
           $currPayout = $rev_row['payout'];
@@ -134,26 +135,46 @@
         <th>Number of Mentions</th>
     </tr>
     <?php
-      $script_query = mysql_query("SELECT movies.title, characters.name,
-        actors.fullName FROM characters
-        JOIN scripts ON scripts.characterId = characters.id
+
+
+
+      $character_query = mysql_query("SELECT movies.title, characters.name,
+        actors.fullName, COUNT(scripts.characterId) charlines  FROM characters
+        JOIN scripts ON characters.id = scripts.characterId
         JOIN movies ON characters.movieId = movies.id
         JOIN actors ON characters.actorId = actors.id
         GROUP BY characters.name");
 
-      if($script_query === FALSE){
+      if($character_query === FALSE){
         die(mysql_error());
       }
 
+      while($character_row = mysql_fetch_array($character_query)){
+        $currCharacter = $character_row['name'];
+        //echo $currCharacter."<br/>";
+        $wordsCount = 0;
+
+        $script_query = mysql_query("SELECT scripts.lineText
+          FROM scripts
+          JOIN characters ON characters.id = scripts.characterId
+          WHERE '$currCharacter' = characters.name");
+
+        if($script_query === FALSE){
+          die(mysql_error());
+        }
+
+        while ($script_row = mysql_fetch_array($script_query)){
+          $wordsCount += count(explode(" ",$script_row['lineText']));
+          //echo "WordCount: ".$wordsCount." After line: ".$script_row['lineText']."<br/>";
+        }
 
 
-      while($script_row = mysql_fetch_array($script_query)){
         print "<tr>";
-          print '<td align="center">'.$script_row['title']."</td>";
-          print '<td align="center">'.$script_row['name']."</td>";
-          print '<td align="center">'.$script_row['fullName']."</td>";
-          print '<td align="center">0</td>';
-          print '<td align="center">0</td>';
+          print '<td align="center">'.$character_row['title']."</td>";
+          print '<td align="center">'.$character_row['name']."</td>";
+          print '<td align="center">'.$character_row['fullName']."</td>";
+          print '<td align="center">'.$character_row['charlines'].'</td>';
+          print '<td align="center">'.$wordsCount.'</td>';
           print '<td align="center">0</td>';
         print "</tr>";
       }
