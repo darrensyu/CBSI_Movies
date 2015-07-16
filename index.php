@@ -112,7 +112,7 @@
       characters.id, characters.name,
       actors.fullName, COUNT(scripts.characterId) charlines,
       scripts.movieId FROM characters
-      JOIN scripts ON characters.id = scripts.characterId
+      LEFT JOIN scripts ON characters.id = scripts.characterId
       JOIN movies ON characters.movieId = movies.id
       JOIN actors ON characters.actorId = actors.id
       GROUP BY characters.name
@@ -126,7 +126,9 @@
 
         //Buffer variables for the current Character, CharacterID, and MovieID
         $currCharacter = $character_row['name'];
+
         $currCharacterId = $character_row['id'];
+        //echo $currCharacter." ".$currCharacterId."<br/>";
         $currMovieId = $character_row['movieId'];
 
         //Counter variables for the number of mentions and words for each Actor.
@@ -146,6 +148,7 @@
           die(mysql_error());
         }
         while ($mention_row = mysql_fetch_array($mention_query)){
+          //echo $mention_row['lineText']."<br/>";
           $currLineArray = explode(" ",$mention_row['lineText']);
           foreach ($currLineArray as $word){
             if(strpos($word,$currCharacter) !== FALSE){
