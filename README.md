@@ -21,6 +21,9 @@ The prompt talks about 10% of the movies failing financially. I took this to mea
 Assumption #4:
 Without a particular script format as reference, I decided to develop my own format of how I would record the data in the database. By doing so, regardless of what format the script is given to me, I can put it through a parser of sorts to fit into the format that I developed. The format consists of having 2 SQL tables within the database (Characters and Scripts). The Characters table consists of identifying which Actor played what specific Character in a specific movie. Using the ids from the Characters table, I connected entries in the Scripts table to have lines and text associated to each Character. Each line would have a maximum of 80 characters of text but obviously this number may be altered to fit the script format better. Therefore, even if a particular character had a verbose monolouge, the text would be split up into multiple lines (and therefore multiple entries) while still being associated to the proper character. Using this format, I am able to identify the number of references of a specific Character made by other Characters in the Movie and therefore display that information in the table on the Home Page.
 
+Assumption #5:
+When searching for references of a Character, the search is case-sensitive and Characters are stored in the database with the name that is being queried for mentions (i.e. the character "Mad Max" is stored in the database under the Character name "Max" because searching for mentions by other Characters of "Mad Max" will still be contained within the result set for mentions of the Character "Max").
+
 ##Tools:
 For this particular project I used:<br/>
 Text Editor: Atom <br/>
