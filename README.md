@@ -3,6 +3,8 @@ CBSI Movies Interview Project
 
 ##Initial Prompt:
 Three hollywood movie production companies, each produces 5-10 movies a year, 10% of the movies fail financially, actors are paid base amount plus rev share. Assume 4 core actors per movie. Produce a display that shows actors, actor revenue, movie production companies revenue, losses for each and a form that allows a user to enter an actor and map to movie and base pay .
+##Secondary Prompt:
+Produce a display that shows a) the number of lines and words in each movie script for each Actor, and,  b) the number of times the Actor's character will be mentioned in each script by other Actors (for instance, Actor plays "Mad Max", this is a count of how many times a reference to "Max" or "Mad Max" by another character is made in the script).
 
 ##Assumptions:
 During the course of this project I made a few assumptions in regards to how the information should be interpreted and how certain elements of the database relate to each other.
@@ -15,6 +17,9 @@ The prompt talks about movie production companies' revenue and losses, but in or
 
 Assumption #3:
 The prompt talks about 10% of the movies failing financially. I took this to mean that if the production revenue for a particular movie was lower than the production cost, the movie would be considered to have failed financially. There are 20 movies in total for the initial Movies table and therefore I inserted 2 movies that failed financially ("Frozen" and "The Book of Life").
+
+Assumption #4:
+Without a particular script format as reference, I decided to develop my own format of how I would record the data in the database. By doing so, regardless of what format the script is given to me, I can put it through a parser of sorts to fit into the format that I developed. The format consists of having 2 SQL tables within the database (Characters and Scripts). The Characters table consists of identifying which Actor played what specific Character in a specific movie. Using the ids from the Characters table, I connected entries in the Scripts table to have lines and text associated to each Character. Each line would have a maximum of 80 characters of text but obviously this number may be altered to fit the script format better. Therefore, even if a particular character had a verbose monolouge, the text would be split up into multiple lines (and therefore multiple entries) while still being associated to the proper character. Using this format, I am able to identify the number of references of a specific Character made by other Characters in the Movie and therefore display that information in the table on the Home Page.
 
 ##Tools:
 For this particular project I used:<br/>
