@@ -40,7 +40,54 @@
   </body>
 
   <?php
+
+    $company_id = 0;
+
+    /* Function to check if the inputted title already exists within the
+     * Movies table, then notify the user of the duplication and
+     * do not create a new entry.
+     */
+    function duplicateMovieCheck($title){
+      $duplicate_movie_query = mysql_query("SELECT title FROM movies");
+      while($row = mysql_fetch_array($duplicate_movie_query)){
+        if ($title == $row['title']) {
+          echo $title." has already been added to
+          the database previously.<br/>";
+          return false;
+        }
+      }
+      return true;
+    }
+
+    /* Function to check if the inputted company name does not match one of the
+     * 3 movie production companies in the Companies table, then the inputted
+     * information is not valid and a new entry is therefore not added to
+     * the Movies table and the user is notified about the error.
+     */
+    function companyCheck($company){
+      global $company_id;
+
+      $company_check_query = mysql_query("SELECT companyName,id FROM companies
+        WHERE companyName = '$company' LIMIT 1");
+      if($company_check_query === FALSE){
+        die(mysql_error());
+      }
+      $company_row = mysql_fetch_array($company_check_query);
+      if(!($company_check_query && mysql_num_rows($company_check_query) > 0)) {
+        echo "The company ".$company." does not seem to exist.<br/>
+        Please check your spelling and try again.";
+        return false;
+      }
+      else {
+        $company_id = $company_row['id'];
+        return true;
+      }
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+      //Boolean value to check that the information inputted is valid
+      $valid_bool = false;
 
       //Connects to server
       mysql_connect("localhost", "root", "") or die(mysql_error());
@@ -79,9 +126,6 @@
       $movieRev3 = mysql_real_escape_string($_POST['actor3RevEntry']);
       $movieRev4 = mysql_real_escape_string($_POST['actor4RevEntry']);
 
-      //Boolean value to check that the information inputted is valid
-      $valid_bool = true;
-
       //Array with the names of each actor to be used to cross-reference
       //against the current names of all the actors within the database.
       $actorArray = [$movieActor1,$movieActor2,$movieActor3,$movieActor4];
@@ -90,37 +134,12 @@
       $revArray = [$movieRev1,$movieRev2,$movieRev3,$movieRev4];
       $actorIdArray = array();
 
-      //If the inputted title already exists within the Movies table, then
-      //notify the user of the duplication and do not create a new entry.
-      $duplicate_movie_query = mysql_query("SELECT title FROM movies");
-      while($row = mysql_fetch_array($duplicate_movie_query)){
-        if ($movieTitle == $row['title']) {
-          $valid_bool = false;
-          echo $movieTitle." has already been added to
-          the database previously.<br/>";
-        }
-      }
+      // Set the valid boolean based on whether the provided information
+      // passes all checks
+      $valid_bool = duplicateMovieCheck($movieTitle) & companyCheck($movieCompany);
 
-      /* If the inputted company name does not match one of the 3 movie
-       * production companies in the Companies table, then the inputted
-       * information is not valid and a new entry is therefore not added to
-       * the Movies table and the user is notified about the error.
-       */
-      $company_check_query = mysql_query("SELECT companyName,id FROM companies
-        WHERE companyName = '$movieCompany' LIMIT 1");
-      if($company_check_query === FALSE){
-        die(mysql_error());
-      }
-      $company_row = mysql_fetch_array($company_check_query);
-      if(!($company_check_query && mysql_num_rows($company_check_query) > 0)
-        && $valid_bool) {
-        echo "The company ".$movieCompany." does not seem to exist.<br/>
-        Please check your spelling and try again.";
-        $valid_bool = false;
-      }
-      else {
-        $company_id = $company_row['id'];
-      }
+
+
 
       //Foreach statement that dynamically adds actors to the Actors table if
       //do no already exist within the table
